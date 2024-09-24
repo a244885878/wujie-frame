@@ -24,7 +24,7 @@ onMounted(() => {
 	// 刷新时同步主应用路由(因为$emit和$on触发时机的问题，刷新时不能首先通知，否则需要改造子应用生命周期)
 	if (window?.$wujie) {
 		const path = window?.$wujie?.props.path
-		router.push(path)
+		router.replace(path)
 	}
 	// 同步主应用路由 => 子应用
 	window?.$wujie?.bus.$on(
@@ -33,10 +33,10 @@ onMounted(() => {
 			// 子应用名称匹配时才跳转(因为保活子应用的话仍然可以响应bus事件)
 			if (subName === selfSubName) {
 				isCurrentRouteChange = true
-				router.push(path)
+				router.replace(path)
 			} else {
 				isCurrentRouteChange = false
-				router.push('/')
+				router.replace('/')
 			}
 		}
 	)

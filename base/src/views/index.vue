@@ -8,6 +8,8 @@
 			:url="item.url"
 			:props="{
 				path,
+				params,
+				query,
 			}"
 			alive
 		></WujieVue>
@@ -30,6 +32,8 @@ const { bus } = WujieVue
 
 const currentSubName = ref<string>('')
 let path = ''
+let params: any = null // 内存中的参数，刷新丢失
+let query: any = null // 主应用地址栏的参数，刷新不丢失
 
 watch(
 	() => route,
@@ -38,6 +42,8 @@ watch(
 		currentSubName.value = val.params.subApplicationName as string
 		// 同步主应用路由 => 子应用
 		path = val.params.subApplicationPath as string
+		// 记录主应用的query参数
+		query = val.query
 		bus.$emit('syncSubRoute', {
 			subName: currentSubName.value,
 			path: path,
@@ -48,11 +54,16 @@ watch(
 
 // 同步子应用路由 => 主应用
 bus.$on('syncMainRoute', (path: string) => {
-	router.push(path)
+	if (route.path !== path) {
+		router.push(path)
+	}
 })
 
 // 子应用相互跳转
-bus.$on('skipRoute', (path: string) => {
+bus.$on('skipRoute', (path: string, data?: any) => {
+	if (data) {
+		params = data
+	}
 	router.push(path)
 })
 

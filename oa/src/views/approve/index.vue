@@ -54,24 +54,25 @@
 				</el-drawer>
 			</div>
 		</div>
-		<el-button type="primary" @click="skip()">跳转到流程页面</el-button>
-		<p style="margin: 10px 0">来自销售子模块订单页的消息：{{ message }}</p>
+		<el-button type="primary" @click="skip()"
+			>跳转到流程页面 store.message='你好啊'</el-button
+		>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import useStore from '@/store'
 
 const router = useRouter()
+const route = useRoute()
 const { setMessage } = useStore()
 
 const value = ref('')
 const dialogVisible = ref(false)
 const drawer = ref(false)
-const message = ref<any>(null)
 
 const options = [
 	{
@@ -97,7 +98,7 @@ const options = [
 ]
 
 const skip = () => {
-	router.push('/flow')
+	router.replace('/flow')
 	setMessage('你好啊')
 }
 
@@ -106,6 +107,8 @@ const open = () => {
 }
 
 console.log('审批页面-加载了')
+console.log(`内部的query`, route.query)
+console.log('基座的props', window.$wujie?.props)
 </script>
 
 <style scoped lang="scss">

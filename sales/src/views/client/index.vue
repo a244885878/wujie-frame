@@ -10,7 +10,7 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const skip = () => {
-	router.push('/approve')
+	router.replace('/approve')
 }
 
 console.log('客户页面-加载了')
