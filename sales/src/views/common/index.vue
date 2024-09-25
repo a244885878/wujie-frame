@@ -1,5 +1,5 @@
 <template>
-	<div class="home-box" v-if="showMenu">
+	<div class="main-box" v-if="showMenu">
 		<Menu></Menu>
 		<div class="views-box">
 			<router-view></router-view>
@@ -17,7 +17,7 @@ const showMenu = computed(() => {
 </script>
 
 <style scoped lang="scss">
-.home-box {
+.main-box {
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
