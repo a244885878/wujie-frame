@@ -16,7 +16,6 @@ const skip = () => {
 }
 
 console.log('订单页面-加载了')
-console.log('token', localStorage.getItem('token'))
 </script>
 
 <style scoped lang="scss">

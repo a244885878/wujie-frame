@@ -6,6 +6,7 @@ import './main.scss'
 import 'element-plus/dist/index.css'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import './permission'
 
 const app = createApp(App);
 

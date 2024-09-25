@@ -1,24 +1,20 @@
 import { reactive } from "vue";
 
 type Store = {
-  message: any
   userInfo: any
 }
 const store: Store = reactive({
-  message: null,
-  userInfo: window?.$wujie ? window?.$wujie?.props.userInfo : null
+  userInfo: null
 })
 
-export default function useStore() {
-  const setMessage = (data: any) => {
-    store.message = data
-  }
+export default function userStore() {
 
   const setUserInfo = () => {
+    console.log('setUserInfo')
     return new Promise((resolve) => {
       setTimeout(() => {
         store.userInfo = {
-          username: 'admin'
+          username: 'Admin'
         }
         resolve(true)
       }, 200)
@@ -26,8 +22,7 @@ export default function useStore() {
   }
 
   return {
-    store,
     setUserInfo,
-    setMessage
+    store
   }
 }

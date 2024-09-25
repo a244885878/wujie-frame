@@ -2,6 +2,7 @@
 	<div class="home-box">
 		<Menu></Menu>
 		<div class="views-box">
+			<h1 v-if="route.path === '/'">欢迎访问！</h1>
 			<router-view></router-view>
 		</div>
 	</div>
@@ -9,6 +10,9 @@
 
 <script setup lang="ts">
 import Menu from '@/components/Menu/index.vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 </script>
 
 <style scoped lang="scss">

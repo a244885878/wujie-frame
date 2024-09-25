@@ -10,6 +10,7 @@
 				path,
 				params,
 				query,
+				userInfo,
 			}"
 			alive
 		></WujieVue>
@@ -25,10 +26,14 @@ import {
 } from 'vue-router'
 import WujieVue from 'wujie-vue3'
 import { menuData } from '@/components/Menu/data'
+import useStore from '@/store'
 
 const route = useRoute()
 const router = useRouter()
 const { bus } = WujieVue
+const {
+	store: { userInfo },
+} = useStore()
 
 const currentSubName = ref<string>('')
 let path = ''
