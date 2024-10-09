@@ -69,7 +69,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 	if (!formEl) return
 	await formEl.validate((valid) => {
 		if (valid) {
-			localStorage.setItem('token', '123')
+			localStorage.setItem('token', 'main')
 			router.push('/')
 		}
 	})

@@ -6,12 +6,7 @@
 			height="100%"
 			:name="item.name"
 			:url="item.url"
-			:props="{
-				path,
-				params,
-				query,
-				userInfo,
-			}"
+			:props="props"
 			alive
 		></WujieVue>
 	</template>
@@ -31,43 +26,43 @@ import useStore from '@/store'
 const route = useRoute()
 const router = useRouter()
 const { bus } = WujieVue
-const {
-	store: { userInfo },
-} = useStore()
 
+type Props = {
+	path: string
+	params: any
+	query: any
+	userInfo: any
+}
+const props = ref<Props>({
+	path: '',
+	params: null, // 内存中的参数，刷新丢失
+	query: null, // 主应用地址栏的参数，刷新不丢失
+	userInfo: useStore().store.userInfo,
+})
 const currentSubName = ref<string>('')
-let path = ''
-let params: any = null // 内存中的参数，刷新丢失
-let query: any = null // 主应用地址栏的参数，刷新不丢失
 
 watch(
 	() => route,
 	(val: RouteLocationNormalizedLoaded) => {
-		// 当前激活的子应用
+		// 当前激活的子应用名称
 		currentSubName.value = val.params.subApplicationName as string
-		// 同步主应用路由 => 子应用
-		path = val.params.subApplicationPath as string
+		// 当前激活的子应用路由
+		props.value.path = val.params.subApplicationPath as string
 		// 记录主应用的query参数
-		query = val.query
+		props.value.query = val.query
+		// 同步主应用路由 => 子应用
 		bus.$emit('syncSubRoute', {
 			subName: currentSubName.value,
-			path: path,
+			path: props.value.path,
 		})
 	},
 	{ deep: true, immediate: true }
 )
 
-// 同步子应用路由 => 主应用
-bus.$on('syncMainRoute', (path: string) => {
-	if (route.path !== path) {
-		router.push(path)
-	}
-})
-
-// 子应用相互跳转
+// 子应用路由跳转
 bus.$on('skipRoute', (path: string, data?: any) => {
 	if (data) {
-		params = data
+		props.value.params = data
 	}
 	router.push(path)
 })

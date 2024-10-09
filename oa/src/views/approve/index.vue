@@ -54,21 +54,14 @@
 				</el-drawer>
 			</div>
 		</div>
-		<el-button type="primary" @click="skip()"
-			>跳转到流程页面 store.message='你好啊'</el-button
-		>
+		<el-button type="primary" @click="skip()">跳转到流程页面</el-button>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { useRouter, useRoute } from 'vue-router'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
-import useStore from '@/store'
-
-const router = useRouter()
-const route = useRoute()
-const { setMessage } = useStore()
+import { routerChange, getQuery } from '@/utils/tools'
 
 const value = ref('')
 const dialogVisible = ref(false)
@@ -98,17 +91,18 @@ const options = [
 ]
 
 const skip = () => {
-	router.replace('/flow')
-	setMessage('你好啊')
+	routerChange('/flow')
 }
 
 const open = () => {
 	ElMessage.success('This is a message.')
 }
 
-console.log('审批页面-加载了')
-console.log(`内部的query`, route.query)
-console.log('基座的props', window.$wujie?.props)
+onMounted(async () => {
+	console.log('审批页面-加载了')
+	console.log(`query获取`, getQuery())
+	console.log('基座的props', window.$wujie?.props)
+})
 </script>
 
 <style scoped lang="scss">
